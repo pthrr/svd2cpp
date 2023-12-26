@@ -1,17 +1,22 @@
-cmake_minimum_required(VERSION 3.10)
-project(svd2cpp)
+cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(CMAKE_CXX_STANDARD 17)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ProjectVersion.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ProjectSettings.cmake)
 
-include_directories(Src)
-include_directories(cxxopts/include)
-include_directories(tinyxml2)
+project(
+  svd2cpp
+  LANGUAGES C CXX
+  VERSION ${PROJECT_VERSION}
+  DESCRIPTION "svd2cpp")
 
-add_library(ClassBuilder Src/ClassBuilder.cpp)
-add_library(Builders Src/Builders.cpp)
-add_library(OutputFile Src/OutputFile.cpp)
-add_library(XmlParser Src/XmlParser.cpp)
-add_library(tinyxml2 tinyxml2/tinyxml2.cpp)
+find_package(spdlog REQUIRED)
+find_package(Catch2 REQUIRED)
+find_package(tinyxml2 REQUIRED)
+find_package(cxxopts REQUIRED)
 
-add_executable(svd2cpp Src/main.cpp)
-target_link_libraries(svd2cpp ClassBuilder Builders OutputFile XmlParser tinyxml2)
+file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE ${PROJECT_NAME}_HEADER CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
+file(GLOB_RECURSE ${PROJECT_NAME}_HEADER2 CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp)
+
+add_subdirectory(src)

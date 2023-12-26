@@ -1,0 +1,86 @@
+# https://taskfile.dev
+
+version: "3"
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - cmd: task --list-all
+
+  clean:
+    cmds:
+      - cmd: rm -rf build
+        platforms: [linux]
+
+  config_linux:
+    internal: true
+    platforms: [linux]
+    cmds:
+      - conan install . --build=missing -s build_type=Release --profile:build=profiles/gcc12_x64 --profile:host=profiles/gcc12_x64
+      - cmake --preset conan-release
+    sources:
+      - conanfile.*
+      - CMakeLists.txt
+      - src/**/CMakeLists.txt
+      - include/**/CMakeLists.txt
+      - tests/**/CMakeLists.txt
+      - external/**/CMakeLists.txt
+      - cmake/**/CMakeLists.txt
+    generates:
+      - build/Release/compile_commands.json
+
+  config_linux_debug:
+    internal: true
+    platforms: [linux]
+    cmds:
+      - conan install . --build=missing -s build_type=Debug --profile:build=profiles/gcc12_x64 --profile:host=profiles/gcc12_x64
+      - cmake --preset conan-debug
+    sources:
+      - conanfile.*
+      - CMakeLists.txt
+      - src/**/CMakeLists.txt
+      - include/**/CMakeLists.txt
+      - tests/**/CMakeLists.txt
+      - external/**/CMakeLists.txt
+      - cmake/**/CMakeLists.txt
+    generates:
+      - build/Debug/compile_commands.json
+
+  config_debug:
+    cmds:
+      - task: config_linux_debug
+
+  config:
+    cmds:
+      - task: config_linux
+
+  build_debug:
+    cmds:
+      - task: config_debug
+      - cmd: cmake --build build/Debug
+
+  build:
+    cmds:
+      - task: config
+      - cmd: cmake --build build/Release
+
+  pack:
+    cmds:
+      - task: build
+      - cmd: cd build/Release && cpack -B install -C Release
+
+  test:
+    cmds:
+      - task: build
+      - cmd: ctest --test-dir build/Release/tests --output-on-failure
+
+  run_debug:
+    cmds:
+      - task: build_debug
+      - cmd: build/Debug/src/svd2cpp
+
+  run:
+    cmds:
+      - task: build
+      - cmd: build/Release/src/svd2cpp

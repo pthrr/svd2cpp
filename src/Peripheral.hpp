@@ -1,23 +1,25 @@
-#ifndef PERIPHERAL
-#define PERIPHERAL
+#pragma once
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
-enum class EAccess{
+enum class EAccess
+{
     Read_Only,
     Write_Only,
     Read_Write
 };
 
-struct Field{
+struct Field
+{
     std::string name;
     std::string description;
     unsigned int bitOffset;
     unsigned int bitWidth;
     EAccess fieldAccess;
-    void display() const{
+    void display() const
+    {
         std::cout << "\t\tname: " << name << std::endl
                   << "\t\tdescription: " << description << std::endl
                   << "\t\tbitOffset: " << bitOffset << std::endl
@@ -27,48 +29,52 @@ struct Field{
     }
 };
 
-struct Register{
+struct Register
+{
     std::string name;
     std::string description;
     unsigned int addressOffset;
     unsigned int size;
     EAccess registerAccess;
     unsigned int resetValue;
-    std::vector<Field> fields;
-    
-    void display() const{
+    std::vector< Field > fields;
+
+    void display() const
+    {
         std::cout << "\tname: " << name << std::endl
                   << "\tdescription: " << description << std::endl
                   << "\taddressOffset: " << addressOffset << std::endl
                   << "\tsize: " << size << std::endl
                   << "\tregisterAccess: " << (int)registerAccess << std::endl
                   << "\tresetValue: " << resetValue << std::endl;
-                  
+
         std::cout << "\tfields: " << std::endl;
-        for(auto& i : fields){
+        for( auto& i : fields ) {
             i.display();
         }
     }
 };
 
-struct AddressBlock{
+struct AddressBlock
+{
     unsigned int offset;
     unsigned int size;
-    void display() const{
-        std::cout << std::endl
-                  << "\toffset: " << offset << std::endl
-                  << "\tsize: " << size << std::endl;
+    void display() const
+    {
+        std::cout << std::endl << "\toffset: " << offset << std::endl << "\tsize: " << size << std::endl;
     }
 };
 
-struct Peripheral{
+struct Peripheral
+{
     std::string name;
     std::string description;
     std::string groupName;
     unsigned int baseAddress;
     AddressBlock addressBlock;
-    std::vector<Register> registers;
-    void display() const{
+    std::vector< Register > registers;
+    void display() const
+    {
         std::cout << std::endl
                   << "name: " << name << std::endl
                   << "description: " << description << std::endl
@@ -77,10 +83,8 @@ struct Peripheral{
                   << "addressBlock: ";
         addressBlock.display();
         std::cout << "registers: " << std::endl;
-        for(auto& i : registers){
+        for( auto& i : registers ) {
             i.display();
         }
     }
 };
-
-#endif
