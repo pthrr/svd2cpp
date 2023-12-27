@@ -1,8 +1,8 @@
 #pragma once
 
-#include "DeviceInfo.hpp"
-#include "IBuilder.hpp"
-#include "Peripheral.hpp"
+#include "builder.h"
+#include "device_info.h"
+#include "peripheral.h"
 
 #include <cxxopts.hpp>
 
@@ -17,12 +17,12 @@ struct ClassBuilder
         const std::vector< Peripheral >& peripherals_ );
     void setupBuilders();
     void build();
-    const std::stringstream& getStream() const;
+    auto getStream() const -> const std::stringstream&;
 
 private:
     const cxxopts::ParseResult& results;
     const DeviceInfo& deviceInfo;
     const std::vector< Peripheral >& peripherals;
     std::vector< std::unique_ptr< IBuilder > > builders;
-    std::stringstream outputStream;
+    std::stringstream m_output_stream;
 };

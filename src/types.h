@@ -2,16 +2,19 @@
 
 #include <cstdint>
 
-using u64 = uint_fast64_t;
-using u32 = uint_fast32_t;
-using u16 = uint_fast16_t;
-using u8 = uint_fast8_t;
-using i64 = int_fast64_t;
-using i32 = int_fast32_t;
-using i16 = int_fast16_t;
-using i8 = int_fast8_t;
+using u64 = uint64_t;
+using u32 = uint32_t;
+using u16 = uint16_t;
+using u8 = uint8_t;
+using i64 = int64_t;
+using i32 = int32_t;
+using i16 = int16_t;
+using i8 = int8_t;
 using f32 = float;
 using f64 = double;
+
+using size = int;
+using usize = unsigned int;
 
 constexpr u64 KiB = 1024;
 constexpr u64 MiB = KiB * KiB;
@@ -24,9 +27,9 @@ namespace types {
 
 struct Version
 {
-    int major = -1;
-    int minor = -1;
-    int patch = -1;
+    i8 major = -1;
+    i8 minor = -1;
+    i8 patch = -1;
 };
 
 } // namespace types

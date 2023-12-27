@@ -1,8 +1,7 @@
-#ifndef XML_PARSER
-#define XML_PARSER
+#pragma once
 
-#include "DeviceInfo.hpp"
-#include "Peripheral.hpp"
+#include "device_info.h"
+#include "peripheral.h"
 
 #include <memory>
 #include <optional>
@@ -42,5 +41,3 @@ private:
     DeviceInfo deviceInfo;
     std::vector< Peripheral > peripherals;
 };
-
-#endif

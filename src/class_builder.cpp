@@ -1,5 +1,4 @@
-#include "ClassBuilder.hpp"
-#include "Builders.hpp"
+#include "class_builder.h"
 
 ClassBuilder::ClassBuilder( const cxxopts::ParseResult& results_,
     const DeviceInfo& deviceInfo_,
@@ -7,6 +6,7 @@ ClassBuilder::ClassBuilder( const cxxopts::ParseResult& results_,
     : results( results_ )
     , deviceInfo( deviceInfo_ )
     , peripherals( peripherals_ )
+    , builders{}
 {
 }
 
@@ -14,20 +14,22 @@ void ClassBuilder::setupBuilders()
 {
     builders.push_back( std::make_unique< ZeroPointerBuilder >() );
     builders.push_back( std::make_unique< FieldDefineBuilder >() );
+
     for( auto& peripheral : peripherals ) {
         builders.push_back( std::make_unique< PeripheralBuilder >( peripheral ) );
     }
+
     builders.push_back( std::make_unique< FunctionsBuilder >() );
 }
 
 void ClassBuilder::build()
 {
     for( auto& builder : builders ) {
-        builder->build( outputStream );
+        builder->build( m_output_stream );
     }
 }
 
-const std::stringstream& ClassBuilder::getStream() const
+auto ClassBuilder::getStream() const -> const std::stringstream&
 {
-    return outputStream;
+    return m_output_stream;
 }

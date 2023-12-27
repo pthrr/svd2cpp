@@ -18,6 +18,7 @@ struct Field
     unsigned int bitOffset;
     unsigned int bitWidth;
     EAccess fieldAccess;
+
     void display() const
     {
         std::cout << "\t\tname: " << name << std::endl

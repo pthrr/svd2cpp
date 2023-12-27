@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Peripheral.hpp"
+#include "peripheral.h"
 
 #include <vector>
 
