@@ -13,7 +13,7 @@ using i8 = int8_t;
 using f32 = float;
 using f64 = double;
 
-using size = int;
+using isize = int;
 using usize = unsigned int;
 
 constexpr u64 KiB = 1024;

@@ -1,27 +1,27 @@
 #pragma once
 
 #include <format>
+#include <string>
 
 #include "types.h"
 
-// TODO: use constexpr
-#define PROJECT_VERSION_MAJOR 0
-#define PROJECT_VERSION_MINOR 1
-#define PROJECT_VERSION_PATCH 0
+constexpr i8 PROJECT_VERSION_MAJOR{ 0 };
+constexpr i8 PROJECT_VERSION_MINOR{ 1 };
+constexpr i8 PROJECT_VERSION_PATCH{ 0 };
 
 namespace version {
 
-static constexpr inline Version PROJECT_VERSION{
+static constexpr inline types::Version PROJECT_VERSION{
     PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR, PROJECT_VERSION_PATCH };
 
 #ifdef NDEBUG
-constexpr bool is_debug = false;
+constexpr bool IS_DEBUG = false;
 #else
-constexpr bool is_debug = true;
+constexpr bool IS_DEBUG = true;
 #endif
 
 static constexpr inline const char* BUILD_VERSION = "<COMMIT_SHA>";
-static constexpr inline const char* BUILD_TYPE = is_debug ? "DEBUG" : "RELEASE";
+static constexpr inline const char* BUILD_TYPE = IS_DEBUG ? "DEBUG" : "RELEASE";
 
 auto getVersionInfo() -> std::string
 {
