@@ -25,11 +25,4 @@ constexpr u64 EiB = KiB * KiB * KiB * KiB * KiB * KiB;
 
 namespace types {
 
-struct Version
-{
-    i8 major = -1;
-    i8 minor = -1;
-    i8 patch = -1;
-};
-
 } // namespace types

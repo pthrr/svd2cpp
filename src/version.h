@@ -5,13 +5,20 @@
 
 #include "types.h"
 
+namespace version {
+
 constexpr i8 PROJECT_VERSION_MAJOR{ 0 };
 constexpr i8 PROJECT_VERSION_MINOR{ 1 };
 constexpr i8 PROJECT_VERSION_PATCH{ 0 };
 
-namespace version {
+struct Version
+{
+    i8 major = -1;
+    i8 minor = -1;
+    i8 patch = -1;
+};
 
-static constexpr inline types::Version PROJECT_VERSION{
+static constexpr inline Version PROJECT_VERSION{
     PROJECT_VERSION_MAJOR, PROJECT_VERSION_MINOR, PROJECT_VERSION_PATCH };
 
 #ifdef NDEBUG
